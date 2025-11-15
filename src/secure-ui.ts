@@ -6,6 +6,7 @@ export function applySecurityUIRestrictions() {
   document.addEventListener("contextmenu", (e) => e.preventDefault());
 
   // disable drag + drop
+  // TODO-MMUEJDE: This not working as expected, need to investigate further
   document.addEventListener("dragover", (e) => e.preventDefault());
   document.addEventListener("drop", (e) => e.preventDefault());
 

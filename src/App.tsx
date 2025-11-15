@@ -1,3 +1,13 @@
+import {
+  Button,
+  Center,
+  Container,
+  Group,
+  Stack,
+  TextInput,
+  Title,
+} from "@mantine/core";
+import { IconMinus, IconPlus } from "@tabler/icons-react";
 import { invoke } from "@tauri-apps/api/core";
 import { useState } from "react";
 
@@ -43,15 +53,29 @@ const App = () => {
   };
 
   return (
-    <main className="container">
-      <h1>IKEA Idasen App</h1>
-      <button onClick={deskUpHandler}>Desk Up</button>
-      <button onClick={deskDownHandler}>Desk Down</button>
-      <h3>Status</h3>
-      <pre>{status}</pre>
-      <pre>{error}</pre>
-      <button onClick={checkConnectionHandler}>Get Status</button>
-    </main>
+    <Container>
+      <Center>
+        <img src="icon.png" alt="IKEA Idasen Logo" height={150} />
+      </Center>
+      <Center my="xl">
+        <Title>IKEA Idasen App</Title>
+      </Center>
+      <Group justify="center">
+        <Button onClick={deskUpHandler} leftSection={<IconPlus />}>
+          Up
+        </Button>
+        <TextInput placeholder="Height in cm" />
+        <Button onClick={deskDownHandler} leftSection={<IconMinus />}>
+          Down
+        </Button>
+      </Group>
+      <Stack align="center" mt="xl">
+        <Title order={3}>Desk Status</Title>
+        <pre>status: {status}</pre>
+        {error && <pre>{error}</pre>}
+        <Button onClick={checkConnectionHandler}>Status abfragen</Button>
+      </Stack>
+    </Container>
   );
 };
 
