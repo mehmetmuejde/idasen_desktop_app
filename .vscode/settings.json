@@ -1,0 +1,21 @@
+{
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit",
+    "source.organizeImports": "explicit",
+    "source.fixAll.biome": "explicit"
+  },
+  "restoreTerminals.terminals": [
+    {
+      "splitTerminals": [
+        {
+          "name": "Idasen Desktop App UI",
+        },
+        {
+          "name": "Idasen Desktop App Rust",
+        }
+      ]
+    }
+  ]
+}
