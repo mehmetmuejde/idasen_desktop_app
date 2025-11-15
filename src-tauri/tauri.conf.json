@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "idasen-react",
+  "productName": "Idasen Desktop",
   "version": "0.1.0",
-  "identifier": "com.mehmetmuejde.idasen-react",
+  "identifier": "com.mehmetmuejde.idasen",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -10,11 +10,16 @@
     "frontendDist": "../dist"
   },
   "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
-        "title": "idasen-react",
-        "width": 800,
-        "height": 600
+        "title": "Idasen Desktop App",
+        "width": 650,
+        "height": 550,
+        "minWidth": 400,
+        "minHeight": 300,
+        "resizable": true,
+        "fullscreen": false
       }
     ],
     "security": {
@@ -33,7 +38,14 @@
     ],
     "macOS": {
       "entitlements": "entitlements.plist",
-      "infoPlist": "Info.plist"
+      "exceptionDomain": "localhost",
+      "infoPlist": "Info.plist",
+      "minimumSystemVersion": "11.0"
+    },
+    "windows": {
+      "webviewInstallMode": {
+        "type": "embedBootstrapper"
+      }
     }
   }
 }
