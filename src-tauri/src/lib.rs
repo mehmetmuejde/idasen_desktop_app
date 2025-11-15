@@ -5,18 +5,18 @@ use uuid::Uuid;
 use anyhow::Result;
 use btleplug::api::Peripheral;
 
-// BLE UUIDs for IDÅSEN Desk
-const HEIGHT_WRITE_UUID: &str = "00001524-1212-efde-1523-785feabcd123";
+// LINAK Movement UUID
+const UUID_MOVE: &str = "99fa0002-338a-1024-8a49-009c0215f78a";
 
 #[tauri::command]
 async fn cmd_up() -> Result<(), String> {
-    log::info!("Moving up...");
+    println!("CMD: Move UP");
     move_direction(true).await.map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn cmd_down() -> Result<(), String> {
-    log::info!("Moving down...");
+    println!("CMD: Move DOWN");
     move_direction(false).await.map_err(|e| e.to_string())
 }
 
@@ -24,20 +24,50 @@ async fn cmd_down() -> Result<(), String> {
 async fn check_connection() -> Result<String, String> {
     match connect_to_desk().await {
         Ok(_) => Ok("connected".into()),
-        Err(e) => Err(format!("not_connected: {}", e)),
+        Err(_) => Err("not_connected".into()),
     }
 }
 
 async fn move_direction(up: bool) -> Result<()> {
     let desk = connect_to_desk().await?;
-    let target = if up { 65_535u16 } else { 0u16 };
-    write_height(&desk, target).await?;
+    if up {
+        move_up(&desk).await?;
+    } else {
+        move_down(&desk).await?;
+    }
+    Ok(())
+}
+
+async fn move_up(p: &impl Peripheral) -> Result<()> {
+    let uuid = Uuid::parse_str(UUID_MOVE)?;
+    let chars = p.characteristics();
+    let c = chars.iter()
+        .find(|x| x.uuid == uuid)
+        .ok_or_else(|| anyhow::anyhow!("Move characteristic not found"))?;
+
+    let cmd = [0x47, 0x00]; // LINAK MOVE UP
+    p.write(c, &cmd, WriteType::WithoutResponse).await?;
+    println!("UP command sent (WriteWithoutResponse)");
+    Ok(())
+}
+
+async fn move_down(p: &impl Peripheral) -> Result<()> {
+    let uuid = Uuid::parse_str(UUID_MOVE)?;
+    let chars = p.characteristics();
+    let c = chars.iter()
+        .find(|x| x.uuid == uuid)
+        .ok_or_else(|| anyhow::anyhow!("Move characteristic not found"))?;
+
+    let cmd = [0x46, 0x00]; // LINAK MOVE DOWN
+    p.write(c, &cmd, WriteType::WithoutResponse).await?;
+    println!("DOWN command sent (WriteWithoutResponse)");
     Ok(())
 }
 
 async fn connect_to_desk() -> Result<impl Peripheral> {
     let manager = Manager::new().await?;
-    let adapter = manager.adapters().await?.into_iter().next().unwrap();
+    let adapter = manager.adapters().await?.into_iter().next()
+        .expect("No Bluetooth adapter");
 
     adapter.start_scan(ScanFilter::default()).await?;
     sleep(Duration::from_secs(2)).await;
@@ -47,8 +77,9 @@ async fn connect_to_desk() -> Result<impl Peripheral> {
     for p in peripherals {
         if let Ok(props_opt) = p.properties().await {
             if let Some(props) = props_opt {
-                if let Some(name) = props.local_name {
-                    if name.contains("Desk") {
+                if let Some(name) = props.local_name.clone() {
+                    if name.starts_with("Desk") {
+                        println!("Found desk: {}", name);
                         p.connect().await?;
                         p.discover_services().await?;
                         return Ok(p);
@@ -58,18 +89,7 @@ async fn connect_to_desk() -> Result<impl Peripheral> {
         }
     }
 
-    Err(anyhow::anyhow!("IDÅSEN desk not found"))
-}
-
-async fn write_height(desk: &impl btleplug::api::Peripheral, mm: u16) -> Result<()> {
-    let uuid = Uuid::parse_str(HEIGHT_WRITE_UUID)?;
-    let chars = desk.characteristics();
-    let c = chars.iter().find(|c| c.uuid == uuid)
-        .ok_or_else(|| anyhow::anyhow!("height write characteristic not found"))?;
-
-    let bytes = mm.to_le_bytes();
-    desk.write(c, &bytes, WriteType::WithResponse).await?;
-    Ok(())
+    Err(anyhow::anyhow!("Desk 5440 not found"))
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

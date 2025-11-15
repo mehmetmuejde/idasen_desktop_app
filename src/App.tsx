@@ -1,25 +1,43 @@
 import { invoke } from "@tauri-apps/api/core";
 import { useState } from "react";
 
-type Status = "OKAY" | "ERROR" | "UNKNOWN"
+type Status = "OKAY" | "ERROR" | "UNKNOWN";
 
 const App = () => {
   const [status, setStatus] = useState<Status>("UNKNOWN");
   const [error, setError] = useState<string>("");
 
   const deskUpHandler = async () => {
-    await invoke("cmd_up");
+    console.log("Desk up command invoked");
+    try {
+      const res = await invoke("cmd_up");
+      setError("");
+    } catch (e) {
+      setError("Error calling command: " + e);
+    }
   };
 
   const deskDownHandler = async () => {
-    await invoke("cmd_down");
+    console.log("Desk down command invoked");
+    try {
+      const res = await invoke("cmd_down");
+      setError("");
+    } catch (e) {
+      setError("Error calling command: " + e);
+    }
   };
 
   const checkConnectionHandler = async () => {
-    await invoke("check_connection").then((res) => setStatus(res as Status)).catch((e) => { 
-      setError(e.toString());
+    try {
+      const res = await invoke("check_connection");
+      if (res === "OKAY") {
+        setStatus("OKAY");
+        setError("");
+      }
+    } catch (e) {
       setStatus("ERROR");
-    });
+      setError(String(e));
+    }
   };
 
   return (
