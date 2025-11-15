@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/assets/icon.png" width="300" alt="Idasen App Icon"/>
+  <img src="icon.png" width="300" alt="Idasen App Icon"/>
 </p>
 <h1 align="center">IKEA Idasen Desktop App</h1>
 
