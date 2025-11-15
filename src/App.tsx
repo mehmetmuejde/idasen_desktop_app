@@ -11,6 +11,7 @@ const App = () => {
     console.log("Desk up command invoked");
     try {
       const res = await invoke("cmd_up");
+      console.log(res);
       setError("");
     } catch (e) {
       setError("Error calling command: " + e);
@@ -21,6 +22,7 @@ const App = () => {
     console.log("Desk down command invoked");
     try {
       const res = await invoke("cmd_down");
+      console.log(res);
       setError("");
     } catch (e) {
       setError("Error calling command: " + e);
