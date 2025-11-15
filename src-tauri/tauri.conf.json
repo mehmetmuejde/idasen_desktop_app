@@ -16,9 +16,7 @@
         "title": "Idasen Desktop App",
         "width": 650,
         "height": 550,
-        "minWidth": 400,
-        "minHeight": 300,
-        "resizable": true,
+        "resizable": false,
         "fullscreen": false
       }
     ],
