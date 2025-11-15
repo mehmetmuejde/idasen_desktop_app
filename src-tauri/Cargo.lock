@@ -1751,6 +1751,7 @@ dependencies = [
  "anyhow",
  "btleplug",
  "log",
+ "once_cell",
  "serde",
  "serde_json",
  "tauri",
