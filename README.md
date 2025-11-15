@@ -1,11 +1,12 @@
-# 🪑 IKEA Idasen Desktop App (Tauri + Rust + React)
+<p align="center">
+  <img src="src/assets/icon.png" width="300" alt="Idasen App Icon"/>
+</p>
+<h1 align="center">IKEA Idasen Desktop App</h1>
 
 A modern, fast and privacy-focused open source controller for the **IKEA Idasen / LINAK** standing desk.  
 Powered by **Rust (btleplug)**, **Tauri 2** and **React (Vite + TypeScript)**.
 
 The goal of this project is to build a cross-platform, stable and extensible desktop app that allows fully controlling the Idasen desk from your computer — including target heights, presets, live height reading, logging, menu bar integration and more.
-
----
 
 ## ✨ Current Features
 
@@ -167,17 +168,17 @@ Height notifications are typically sent in **0.1 mm units**; the raw values must
 ### 📡 BLE Architecture
 
 React UI (Buttons, quick actions, logs)
-          │
-          │  invoke("cmd_up" | "cmd_down" | "check_connection", ...)
-          ▼
+│
+│ invoke("cmd_up" | "cmd_down" | "check_connection", ...)
+▼
 Tauri (Rust) Commands
-          │
-          │  btleplug: scan, connect, write, subscribe
-          ▼
+│
+│ btleplug: scan, connect, write, subscribe
+▼
 Bluetooth Low Energy Controller (LINAK)
-          │
-          │  GATT services / characteristics (99fa0002, 99fa0003, etc.)
-          ▼
+│
+│ GATT services / characteristics (99fa0002, 99fa0003, etc.)
+▼
 IKEA Idasen / LINAK Desk Hardware
 
 ### 📜 License
