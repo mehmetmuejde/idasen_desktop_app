@@ -6,9 +6,30 @@ export function applySecurityUIRestrictions() {
   document.addEventListener("contextmenu", (e) => e.preventDefault());
 
   // disable drag + drop
-  // TODO-MMUEJDE: This not working as expected, need to investigate further
-  document.addEventListener("dragover", (e) => e.preventDefault());
-  document.addEventListener("drop", (e) => e.preventDefault());
+  window.addEventListener("dragenter", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Das hier ist wichtig, um das grüne Plus-Symbol zu verhindern:
+    e.dataTransfer!.dropEffect = "none";
+    e.dataTransfer!.effectAllowed = "none";
+  });
+
+  window.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.dataTransfer!.dropEffect = "none";
+    e.dataTransfer!.effectAllowed = "none";
+  });
+
+  window.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  window.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
 
   // disable highlighting on click
   document.addEventListener("mousedown", () => {

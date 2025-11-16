@@ -1,11 +1,11 @@
+import { MantineProvider } from "@mantine/core";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import "./index.css";
 import { applySecurityUIRestrictions } from "./secure-ui";
 
-import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
-import "./index.css";
 
 applySecurityUIRestrictions();
 

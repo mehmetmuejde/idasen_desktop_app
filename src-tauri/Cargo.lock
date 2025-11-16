@@ -1750,6 +1750,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "btleplug",
+ "futures",
  "log",
  "once_cell",
  "serde",

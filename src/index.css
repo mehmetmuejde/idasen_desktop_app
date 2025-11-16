@@ -1,12 +1,13 @@
 * {
-  -webkit-user-select: none;
-  -ms-user-select: none;
   user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: auto;
+  cursor: default !important;
 }
 
 html,
-body,
-#root {
+body {
   overflow: hidden;
   height: 100%;
   padding: 0;

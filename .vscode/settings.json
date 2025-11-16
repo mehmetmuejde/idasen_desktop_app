@@ -1,6 +1,7 @@
 {
   "files.autoSave": "onFocusChange",
   "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit",
     "source.organizeImports": "explicit",

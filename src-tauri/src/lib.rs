@@ -6,10 +6,8 @@ use anyhow::Result;
 use once_cell::sync::OnceCell;
 use btleplug::api::Characteristic;
 
-// Desk cache
 static DESK: OnceCell<Peripheral> = OnceCell::new();
 
-// Movement UUID
 const UUID_MOVE: &str = "99fa0002-338a-1024-8a49-009c0215f78a";
 
 #[tauri::command]
@@ -28,31 +26,24 @@ async fn cmd_down() -> Result<(), String> {
 
 #[tauri::command]
 async fn check_connection() -> Result<String, String> {
-    if get_or_connect().await.is_ok() {
-        Ok("connected".into())
-    } else {
-        Err("not_connected".into())
-    }
+    // TODO-MMUEJDE: Heir sollten wir eine ART ENUM zurückgeben
+    get_or_connect()
+    .await
+    .map(|_| "connected".into())
+    .map_err(|_| "not_connected".into())
 }
 
-//
-// EINMAL verbinden + cachen
-//
 async fn get_or_connect() -> Result<&'static Peripheral> {
     if let Some(p) = DESK.get() {
         if p.is_connected().await.unwrap_or(false) {
             return Ok(p);
         }
     }
-
     let p = connect_to_desk().await?;
     DESK.set(p).ok();
     Ok(DESK.get().unwrap())
 }
 
-//
-// Move UP
-//
 async fn move_up(p: &Peripheral) -> Result<()> {
     let uuid = Uuid::parse_str(UUID_MOVE)?;
     let characteristic = find_characteristic(p, uuid)?;
@@ -63,9 +54,6 @@ async fn move_up(p: &Peripheral) -> Result<()> {
     Ok(())
 }
 
-//
-// Move DOWN
-//
 async fn move_down(p: &Peripheral) -> Result<()> {
     let uuid = Uuid::parse_str(UUID_MOVE)?;
     let characteristic = find_characteristic(p, uuid)?;
@@ -76,9 +64,6 @@ async fn move_down(p: &Peripheral) -> Result<()> {
     Ok(())
 }
 
-//
-// Characteristic sicher OWNED zurückgeben
-//
 fn find_characteristic(p: &Peripheral, uuid: Uuid) -> Result<Characteristic> {
     let chars = p.characteristics();
     chars
@@ -88,9 +73,6 @@ fn find_characteristic(p: &Peripheral, uuid: Uuid) -> Result<Characteristic> {
         .ok_or_else(|| anyhow::anyhow!("Characteristic not found: {}", uuid))
 }
 
-//
-// Einmalige Verbindung
-//
 async fn connect_to_desk() -> Result<Peripheral> {
     let manager = Manager::new().await?;
     let adapter = manager.adapters().await?.into_iter().next()
