@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Idasen Desktop App",
+  "productName": "Idasen Desk Controller",
   "version": "0.1.0",
   "identifier": "com.mehmetmuejde.idasen",
   "build": {
@@ -13,7 +13,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "Idasen Desktop App",
+        "title": "Idasen Desk Controller",
         "width": 650,
         "height": 550,
         "resizable": false,

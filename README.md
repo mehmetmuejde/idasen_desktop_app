@@ -1,7 +1,7 @@
 <p align="center">
   <img src="icon.png" width="300" alt="Idasen App Icon"/>
 </p>
-<h1 align="center">IKEA Idasen Desktop App</h1>
+<h1 align="center">IKEA Idasen Desk Controller</h1>
 
 A modern, fast and privacy-focused open source controller for the **IKEA Idasen / LINAK** standing desk.  
 Powered by **Rust (btleplug)**, **Tauri 2** and **React (Vite + TypeScript)**.

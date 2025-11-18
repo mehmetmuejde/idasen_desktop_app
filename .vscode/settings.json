@@ -11,10 +11,10 @@
     {
       "splitTerminals": [
         {
-          "name": "Idasen Desktop App UI",
+          "name": "Idasen Desk Controller UI"
         },
         {
-          "name": "Idasen Desktop App Rust",
+          "name": "Idasen Desk Controller Rust"
         }
       ]
     }

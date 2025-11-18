@@ -113,7 +113,7 @@ const App = () => {
       >
         <Group>
           <img src="favicon.png" alt="Idasen Logo" width={32} height={32} />
-          <Title order={3}>Idasen Desktop App</Title>
+          <Title order={3}>Idasen Desk Controller</Title>
         </Group>
         <Group gap={5}>
           <ActionIcon onClick={minimizeAppHandler} color="orange" radius={50}>
